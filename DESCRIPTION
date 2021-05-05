@@ -1,0 +1,41 @@
+Package: tclboot
+Type: Package
+Title: Conditional inference in small sample scenarios
+Version: 0.1.0
+Date: 2021-05-05
+Authors@R: 
+    c(person(given = "Clemens",
+              family = "Draxler",
+              role = c("aut", "cre"),
+              email = "clemens.draxler@umit.at"),
+       person(given = "Andreas", 
+              family = "Kurz", 
+              role = "aut",
+              email = "andreas.kurz@umit.at"))
+Author: Clemens Draxler [aut], 
+  Andreas Kurz [.Rbuildignore, cre]
+Maintainer: Andreas Kurz <andreas.kurz@umit.at>
+Description: An implementation of a non-parametric resampling technique in the context of 
+    multidimensional hypothesis testing of assumptions of the Rasch model based on conditional 
+    distributions. It is suggested in small sample size scenarios, in which asymptotic theory 
+    is not applicable, to approximate the exact sampling distribution of various well-known 
+    Chi^2 test statistics like Wald, likelihood ratio, score and gradient tests as well as 
+    others. A procedure to compute the power function of the tests is also presented. A number 
+    of examples of scenarios are discussed in which the power function does not converge to one 
+    with an increasing deviation from the hypothesis to be tested, i.e. the respective assumption 
+    of the model. Finally, an attempt to modify the critical region of the test is made aiming 
+    at improving the power.
+License: GPL-3
+Depends: 
+    R (>= 3.5.0)
+Imports: eRm, psychotools, ltm, numDeriv, graphics, grDevices, stats, 
+         methods, MASS, splines, Matrix, psych
+Suggests:
+    knitr,
+    rmarkdown
+Encoding: UTF-8
+LazyLoad: true
+LazyData: true
+NeedsCompilation: no
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr

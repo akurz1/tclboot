@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^doc$
+^Meta$
+^cran-comments\.md$
+^README\.md$
+^NEWS\.md$
