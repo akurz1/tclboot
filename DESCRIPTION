@@ -1,19 +1,19 @@
 Package: tclboot
 Type: Package
-Title: Conditional inference in small sample scenarios
+Title: Conditional Inference in Small Sample Scenarios
 Version: 0.1.0
 Date: 2021-05-05
 Authors@R: 
     c(person(given = "Clemens",
               family = "Draxler",
-              role = c("aut", "cre"),
+              role = "aut",
               email = "clemens.draxler@umit.at"),
        person(given = "Andreas", 
               family = "Kurz", 
-              role = "aut",
+              role =  c("aut", "cre"),
               email = "andreas.kurz@umit.at"))
 Author: Clemens Draxler [aut], 
-  Andreas Kurz [.Rbuildignore, cre]
+  Andreas Kurz [aut, cre]
 Maintainer: Andreas Kurz <andreas.kurz@umit.at>
 Description: An implementation of a non-parametric resampling technique in the context of 
     multidimensional hypothesis testing of assumptions of the Rasch model based on conditional 
@@ -26,16 +26,21 @@ Description: An implementation of a non-parametric resampling technique in the c
     of the model. Finally, an attempt to modify the critical region of the test is made aiming 
     at improving the power.
 License: GPL-3
+URL: https://github.com/akurz1/tclboot
+BugReports: https://github.com/akurz1/tclboot/issues
 Depends: 
     R (>= 3.5.0)
-Imports: eRm, psychotools, ltm, numDeriv, graphics, grDevices, stats, 
-         methods, MASS, splines, Matrix, psych
+Imports: eRm, psychotools, graphics, grDevices, stats, 
+         methods, MASS, splines, lattice, Matrix, xtable, psych,
+         ggpubr, reshape2, dplyr, ggplot2, tidyverse,
+         rlang, scales, utils
 Suggests:
     knitr,
     rmarkdown
 Encoding: UTF-8
 LazyLoad: true
 LazyData: true
-NeedsCompilation: no
+LazyDataCompression: gzip
+NeedsCompilation: yes
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
