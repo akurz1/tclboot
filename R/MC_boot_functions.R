@@ -762,7 +762,7 @@ pwr_plot_item <- function(res, iplot, alpha,
       ggpubr::theme_pubr() +
       ggplot2::geom_line( ggplot2::aes(linetype = index)) + #
       ggplot2::xlab(rlang::expr( paste(delta[!!iplot])) )+  # xlab(paste0("delta_",iplot)) +  # xlab("delta") +
-      ggplot2::ylab("power") +
+      ggplot2::ylab("prob. of rejection") + # ggplot2::ylab("power") +
       # ylim(0,1) +
       ggplot2::labs(title = name_title, tag = tag_title) + # labs(title = name_title, subtitle = name_subtitle) +
       ggplot2::geom_hline(yintercept=alpha, linetype="dotted", color = "black")  +
