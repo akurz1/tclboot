@@ -732,6 +732,19 @@ pwr_plot_item <- function(res, iplot, alpha,
   cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 
+  nstats <- colnames(df)[2]
+  if (nstats == "sqs") {
+    l1 <- expression(italic("U")[1]) # sqs
+    l2 <- expression( paste(italic("U")[1], " modified"))
+    nlabels <- c(l1, l2)
+  } else if (nstats == "abs") {
+    l1 <- expression(italic("U")[2]) # abs
+    l2 <- expression( paste(italic("U")[2], " modified"))
+    nlabels <- c(l1, l2)
+  } else {
+    nlabels <- c (nstats, paste(nstats, " modified"))
+  }
+
   # require(dplyr)
    # requireNamespace(ggplot2)
   # require(ggpubr)
@@ -745,7 +758,8 @@ pwr_plot_item <- function(res, iplot, alpha,
       # ggplot2::ylim(0,1) +
       ggplot2::labs(title = name_title, tag = tag_title) + # labs(title = name_title, subtitle = name_subtitle) +
       ggplot2::geom_hline(yintercept=alpha, linetype="dotted", color = "black")  +
-      ggplot2::scale_linetype_discrete(name = legend_title) + # scale_linetype_manual(name = legend_title, values = ltype )+
+      # ggplot2::scale_linetype_discrete(name = legend_title) + # scale_linetype_manual(name = legend_title, values = ltype )+
+      ggplot2::scale_linetype_discrete(name = legend_title, labels = nlabels) +
       ggplot2::scale_color_discrete(name = legend_title, type = cbPalette)  +
       ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5,size = ggplot2::rel(1.4)), # 15),
@@ -766,7 +780,8 @@ pwr_plot_item <- function(res, iplot, alpha,
       # ylim(0,1) +
       ggplot2::labs(title = name_title, tag = tag_title) + # labs(title = name_title, subtitle = name_subtitle) +
       ggplot2::geom_hline(yintercept=alpha, linetype="dotted", color = "black")  +
-      ggplot2::scale_linetype_discrete(name = legend_title) + # scale_linetype_manual(name = legend_title, values = ltype )+
+      # ggplot2::scale_linetype_discrete(name = legend_title) + # scale_linetype_manual(name = legend_title, values = ltype )+
+      ggplot2::scale_linetype_discrete(name = legend_title, labels = nlabels) +
       ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, size = ggplot2::rel(1.4)), # 15),
             legend.title = ggplot2::element_text(hjust = 1),
@@ -1004,11 +1019,14 @@ plotlist_crit <- function(object,
 
   stats <- lstats[nstats,]   #  sqs <-  lstats["sqs", ]
   icrit <- which(stats > stats::quantile(stats, (1 - alpha * alpha_mod)) )   # index for stats, ctr_alpha = factor
+  icrit0 <- which(stats > stats::quantile(stats, (1 - alpha)) ) # crit. region of test statistics without modification
 
   for ( item in seq(k)) {  ###### item
 
     tab <- object$result_list$plot[[item]] [ c("x",nstats)]
     dvec <- tab$x
+
+    if (alpha != .05) tab[[2]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit0)  # saved result data with alpha = 0.05!
 
     ### conditionioning critical region ##################################
     imod_low <- which(t[item,] < stats::quantile(t[item,], alpha))
@@ -1025,9 +1043,11 @@ plotlist_crit <- function(object,
     icrit_mod <- union(icrit, imod)
     tab[[nstats_c]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit_mod)
 
-    idiff <- base::setdiff(imod, icrit)
+    #idiff <- base::setdiff(imod, icrit)
+    idiff <- base::setdiff(imod, icrit0)  # difference with and without modification
     resultlist[[item]] <- list(t_item = t[item,],
                               icrit = icrit,
+                              icrit0 = icrit0,
                               imod = imod,
                               imod_low = imod_low,
                               imod_high = imod_high,
@@ -1072,13 +1092,14 @@ plotlist_crit <- function(object,
 
     tab2$score <- c(1:(ng2-1))
     tab2$t <- table_t(t[item, ], ng2) / n_iter * 100
-    tab2$crit <- table_t(t[item, icrit], ng2) /n_iter  * 100
+    tab2$crit <- table_t(t[item, icrit0], ng2) /n_iter  * 100 # rel. freq. without modification
     tab2$mod <- table_t(t[item, icrit_mod ], ng2) /n_iter * 100
 
     plot2 <- as.data.frame( t(matrix(unlist(tab2), nrow=4, byrow = TRUE)) )
     colnames(plot2) <- c("x","t", nstats, nstats_c)
 
     p2 <- pwr_hist_item(plot = plot2, iplot = item)
+
     plotlist_t[[item]] <- p2
     #############################
 
@@ -1089,22 +1110,21 @@ plotlist_crit <- function(object,
     t_i <- t[item, ]
 
     tlist <- list()
-    tlist[[1]] <-  table(t_i[idiff])
-    tlist[[2]] <-  table(t_i[icrit])
-    names(tlist) <- c(nstats_c, nstats)
 
-    df <- mtable(t_i=t_i, tlist = tlist) # data frame of Tabke of T statistcs
+    tlist[[1]] <-  table(t_i[icrit0])  # crit region t without modification (alpha)
+    tlist[[2]] <-  table(t_i[icrit])   # crit region t with modification (alpha_mod)
+    tlist[[3]] <-  table(t_i[imod])    # modification crit. reg. (alpha)
+    names(tlist) <- c(nstats, paste0(nstats,"_mod"), nstats_c)
 
-    lpwr_d0 <- c( sum(df[,3]), sum(df[,2] + df[,3]), sum(df[,2]) ) / 100
-    names(lpwr_d0) <- c(nstats, nstats_c, "diff")
+    df <- mtable(t_i=t_i, tlist = tlist) # data frame of table of T statistcs
+    colnames(df[4]) <- "alpha_mod"
+    df$mod <- df[,3] + df[,4]
+
+    # lpwr_d0 <- c( sum(df[,2]), sum(df[,3]) , sum(df[,4]), sum(df[,3] + df[,4]) , sum(df[,3] + df[,4] - df[,2])  ) / 100
+    lpwr_d0 <- c( sum(df[,2]), sum(df[,3]) , sum(df[,4]), sum(df[,5] ) , sum(df[,5] - df[,2]) ) / 100
+    names(lpwr_d0) <- c(nstats, paste0(nstats,"_mod"), paste0("alpha_",nstats_c),  nstats_c, "diff")
     resultlist[[item]]$lpwr_d0 <- lpwr_d0
 
-     # tlist[[1]] <-  table(t_i[icrit])
-     # tlist[[2]] <-  table(t_i[idiff])
-     # tlist[[3]] <-  table(t_i[icrit_cond])
-     # names(tlist) <- c(nstats, "diff", nstats_c)
-
-    # plotlist_t2[[item]] <- t_hist_item(t_i = t_i, tlist = tlist)
     plotlist_t2[[item]] <- t_hist_item(df = df)
 
 
@@ -1124,7 +1144,7 @@ plotlist_crit <- function(object,
 } # end plotlist_crit
 
 
-# histogram sufficient statistic and critical regio
+# histogram sufficient statistic and critical region
 # @importFrom grDevices italic
 
 pwr_hist_item <- function(plot, iplot) {
@@ -1166,7 +1186,7 @@ pwr_hist_item <- function(plot, iplot) {
 
   return(p)
 
-}
+} # end pwr_hist_item
 
 
 ####
@@ -1214,7 +1234,6 @@ mtable <- function(t_i, tlist) {
 
 
 ####
-# t_hist_item <- function(t_i,  tlist ) {
 t_hist_item <- function(df) {
 
   # n_iter <- length(t_i)
@@ -1267,7 +1286,7 @@ t_hist_item <- function(df) {
 
   p <- ggplot2::ggplot(data = xymelt, ggplot2::aes(x = t, y = value, fill = index)) +
     ggpubr::theme_pubr() +
-    ggplot2::geom_bar( position='stack', stat="identity") + # ggplot2::geom_bar( stat="identity", position = ggplot2::position_dodge()) +
+    ggplot2::geom_bar( stat="identity", position = ggplot2::position_dodge()) + #geom_bar( position='stack', stat="identity") +
     ggplot2::scale_fill_grey(start=0.8,end =0.5) +
     ggplot2::scale_x_continuous(breaks= df$t) + # scale_x_continuous(breaks= scales::pretty_breaks()) +
     ggplot2::xlab(name.xlab) +

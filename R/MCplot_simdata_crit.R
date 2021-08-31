@@ -13,7 +13,7 @@
 #
 #
 # Licensed under the GNU General Public License Version 3 (June 2007)
-# copyright (c) 2021, Last Modified 12/05/2021
+# copyright (c) 2021, Last Modified 30/08/2021
 ######################################################################
 #' Plot of power function.
 #'
@@ -21,7 +21,7 @@
 #'
 #' @param N Sample size \eqn{n} of selected case.  N =  10, 15, 20, 25, 30, 50
 #' @param k Number of items \eqn{k} of selected case. k = 6, 8, 10, 12, 14, 16, 18, 20, 25, 30
-#' @param nstats Name of test statistics to be plotted. Note only one test allowed. By default "sqs" will be plotted.
+#' @param nstats Name of test statistics chosen out of possible tests c("W", "LR", "RS", "G", "U1", "U2", "St") to be modified. Note only one test allowed. By default "U1" will be plotted.
 #' @param alpha Probability of error of first kind (in plot shown as dotted horizontal line).
 #' @param xlim  A numeric value, specifying the left/lower limit and the right/upper limit of the x scale. Maximum value is xlim = 10.
 #' @param legend_title The text for Legend. By default it is set to "Test".
@@ -62,7 +62,8 @@
 #' }
 
 MCplot_simdata_crit <- function( N, k,
-                                 nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
+                                 # nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
+                                 nstats = c("W", "LR", "RS", "G", "U1", "U2", "St"),
                                  alpha = 0.05,
                                  xlim = 5,
                                  legend_title = ggplot2::element_blank(), # "Test",
@@ -74,8 +75,19 @@ MCplot_simdata_crit <- function( N, k,
                                  alpha_mod = 1,
                                  ctr_mod = c("low", "high", "both")){
   call<-match.call()
-  if (length(nstats) > 1)  nstats <- c("sqs")
-  if (length(ctr_mod) > 1)  ctr_mod <- c("both")
+
+  if (length(nstats) > 1) {
+    warning("Test for modification set by default to U1!")
+    nstats <- c("U1")
+  }
+
+  if (nstats == "U1") nstats <- "sqs"
+  if (nstats == "U2") nstats <- "abs"
+
+  if (length(ctr_mod) > 1)  {
+    warning("Default value for modification set (both)!")
+    ctr_mod <- c("both")
+  }
   # legend_title = "Test" # expression(italic("n"))
 
   obj <- load_data(N = N, k = k) # load simulation data und results

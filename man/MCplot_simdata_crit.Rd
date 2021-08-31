@@ -7,7 +7,7 @@
 MCplot_simdata_crit(
   N,
   k,
-  nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
+  nstats = c("W", "LR", "RS", "G", "U1", "U2", "St"),
   alpha = 0.05,
   xlim = 5,
   legend_title = ggplot2::element_blank(),
@@ -25,7 +25,7 @@ MCplot_simdata_crit(
 
 \item{k}{Number of items \eqn{k} of selected case. k = 6, 8, 10, 12, 14, 16, 18, 20, 25, 30}
 
-\item{nstats}{Name of test statistics to be plotted. Note only one test allowed. By default "sqs" will be plotted.}
+\item{nstats}{Name of test statistics chosen out of possible tests c("W", "LR", "RS", "G", "U1", "U2", "St") to be modified. Note only one test allowed. By default "U1" will be plotted.}
 
 \item{alpha}{Probability of error of first kind (in plot shown as dotted horizontal line).}
 
