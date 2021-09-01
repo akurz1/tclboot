@@ -711,7 +711,7 @@ pwr_plot_item <- function(res, iplot, alpha,
                           tcolor) {
 
 
-  beta_rest <- c(0, res$eta_rest)
+  # beta_rest <- c(0, res$eta_rest)
   # y <- object$inputmat
   # N <- dim(y)[1]
   # k <- dim(y)[2]
@@ -732,6 +732,10 @@ pwr_plot_item <- function(res, iplot, alpha,
   cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 
+  nlabels <- colnames(df)[-1]
+
+  if (class(res) == "crit") {
+
   nstats <- colnames(df)[2]
   if (nstats == "sqs") {
     l1 <- expression(italic("U")[1]) # sqs
@@ -742,12 +746,12 @@ pwr_plot_item <- function(res, iplot, alpha,
     l2 <- expression( paste(italic("U")[2], " modified"))
     nlabels <- c(l1, l2)
   } else {
-    nlabels <- c (nstats, paste(nstats, " modified"))
+    nlabels <- c(nstats, "mod")
   }
 
-  # require(dplyr)
-   # requireNamespace(ggplot2)
-  # require(ggpubr)
+  } # end if class
+
+
 
   if (tcolor) {
     p <-  ggplot2::ggplot(data = xymelt, ggplot2::aes(x = x, y = value, group = index)) +
@@ -981,7 +985,7 @@ plotlist_crit <- function(object,
                           legend.position,
                           legend.direction,
                           tcolor,
-                          alpha_mod,
+                          ctr_alpha,
                           ctr_mod) {
 
   # legend_title = "Test" # expression(italic("n"))
@@ -1018,7 +1022,7 @@ plotlist_crit <- function(object,
   }
 
   stats <- lstats[nstats,]   #  sqs <-  lstats["sqs", ]
-  icrit <- which(stats > stats::quantile(stats, (1 - alpha * alpha_mod)) )   # index for stats, ctr_alpha = factor
+  icrit <- which(stats > stats::quantile(stats, (1 - alpha * ctr_alpha)) )   # index for stats, ctr_alpha = factor
   icrit0 <- which(stats > stats::quantile(stats, (1 - alpha)) ) # crit. region of test statistics without modification
 
   for ( item in seq(k)) {  ###### item
@@ -1063,6 +1067,7 @@ plotlist_crit <- function(object,
     }
 
     res <- list( eta_rest= eta_rest, y=y,k=k, plot=plot )
+    class(res) <- "crit"
 
     if(item == 1) tag_title <- tag_title # paste0("I",item)
     if(item > 1) tag_title <- ggplot2::element_blank()
@@ -1114,10 +1119,10 @@ plotlist_crit <- function(object,
     tlist[[1]] <-  table(t_i[icrit0])  # crit region t without modification (alpha)
     tlist[[2]] <-  table(t_i[icrit])   # crit region t with modification (alpha_mod)
     tlist[[3]] <-  table(t_i[imod])    # modification crit. reg. (alpha)
-    names(tlist) <- c(nstats, paste0(nstats,"_mod"), nstats_c)
+    # names(tlist) <- c(nstats, paste0(nstats,"_mod"), nstats_c)
+    names(tlist) <- c(nstats, paste0(nstats,"_mod"), "alpha_mod")
 
     df <- mtable(t_i=t_i, tlist = tlist) # data frame of table of T statistcs
-    colnames(df[4]) <- "alpha_mod"
     df$mod <- df[,3] + df[,4]
 
     # lpwr_d0 <- c( sum(df[,2]), sum(df[,3]) , sum(df[,4]), sum(df[,3] + df[,4]) , sum(df[,3] + df[,4] - df[,2])  ) / 100

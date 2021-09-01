@@ -66,6 +66,8 @@ MCplot_simdata <- function(N, k,
   # legend_title = "Test" # expression(italic("n"))
 
   obj <- load_data(N = N, k = k) # load simulation data und results
+  class(obj) <- "MCplot_case"
+
   plotlist <- plotlist(object=obj,
                        nstats=nstats,
                        alpha=alpha,

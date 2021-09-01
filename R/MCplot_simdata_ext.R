@@ -81,6 +81,7 @@ obj_list <- empty_list
     obj_list[[ip]] <- load_data(N = npers[ip], k = k) # load simulation data und results
 
   } # end for
+  class(obj_list) <- "MCplot_case_ext"
 
   # obj <- load_data(N = N, k = k) # load simulation data und results
   plotlist <- plotlist_ext(object_list=obj_list,

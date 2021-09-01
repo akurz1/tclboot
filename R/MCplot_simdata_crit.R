@@ -30,18 +30,23 @@
 #' @param legend.position the position of legends ("none", "left", "right", "bottom", "top", or two-element numeric vector)
 #' @param legend.direction layout of items in legends ("horizontal" or "vertical")
 #' @param tcolor Logic value. If TRUE then ggplot plot will be in color otherwise black and white.
-#' @param alpha_mod A numeric value. The crit. region \eqn{C} of selected test statistic will be \eqn{100(alpha*alpha_mod)} percent largest values of this test statistics. Default value is 1.
+#' @param ctr_alpha A numeric value. The crit. region \eqn{C} of selected test statistic will be \eqn{100(alpha*ctr_alpha)} percent largest values of this test statistics. Default value is 1.
 #' @param ctr_mod Character. Which type of modification of critical region should be used. Adding low most extreme values of the respective of \eqn{T} statistics ("low"),
 #' adding high most extreme values of the respective of \eqn{T} statistics ("high"), or adding both ("both"). The latter is also Default value.
 #'
-#' @return An object of class "\code{MCplot.case}" containing:
+#' @return An object of class "\code{MCplot_case_crit}" containing:
 #' \item{power_item}{A list of length k containing ggplot objects of power plots of each item and selected test statistics and
 #'  modification of critical region (cond).}
 #' \item{hist_item}{Histograms of critical values of sufficient statistics \eqn{t}, without ("test name") and with (mod) modification of critical region.}
 #'  \item{plotlist}{A list of length k containing combined ggplot objects of (1) power plots of each item and selected test statistics and
 #'  modification of critical region, and (2) Histograms of critical values of sufficient statistics \eqn{t}, without ("test name") and with (mod) modification
 #'  of critical region.}
-#'  \item{call}{The matched call.}
+#'  \item{resultlist}{A list of length k containing several sublists: values of sufficient statistics \eqn{t} "t_item",
+#'  indices of \eqn{100(alpha*ctr_alpha)} percent largest values ("icrit"), and \eqn{100(alpha)} percent largest values of test statistic ("icrit0"),
+#'  incices of modification ("imod", "imod_low", "imod_high"), difference of indices ("idiff"), union of indices in crit. reg. after modification ("icrit_mod"),
+#'  power values at \eqn{delta}=0 ("lpwr_d0"), and a table of rel. frequency of values of sufficient statistics \eqn{t} in critical region ("t_table") }
+#'  \item{hist_crit_reg}{A list of length k containing histograms of critical values of sufficient statistics \eqn{t}, without modification ("test name") and with (mod) modification of critical region.}
+#'   \item{call}{The matched call.}
 #'
 #' @references{
 #' Draxler, C., & Dahm, S. (2020). Conditional or Pseudo Exact Tests with an Application in the Context of Modeling
@@ -72,7 +77,7 @@ MCplot_simdata_crit <- function( N, k,
                                  legend.position = c(.5, .75), # "top",
                                  legend.direction = "vertical",
                                  tcolor=FALSE,
-                                 alpha_mod = 1,
+                                 ctr_alpha = 1,
                                  ctr_mod = c("low", "high", "both")){
   call<-match.call()
 
@@ -91,6 +96,7 @@ MCplot_simdata_crit <- function( N, k,
   # legend_title = "Test" # expression(italic("n"))
 
   obj <- load_data(N = N, k = k) # load simulation data und results
+  class(obj) <- "MCplot_case_crit"
 
   results <- plotlist_crit( object=obj,
                             nstats=nstats,
@@ -102,8 +108,8 @@ MCplot_simdata_crit <- function( N, k,
                             legend.position = legend.position,
                             legend.direction = legend.direction,
                             tcolor=tcolor,
-                            alpha_mod = alpha_mod,
-                            ctr_mod =ctr_mod)
+                            ctr_alpha = ctr_alpha,
+                            ctr_mod = ctr_mod)
 
   results$object <- obj
   results$call <- call
