@@ -20,6 +20,7 @@
 #'
 #' @param object An object of class "\code{MCplot}"
 #' @param nstats Name(s) of test statistics to be plotted. Note a maximum of 4 tests allowed. By default c("W", "LR", "RS", "G") will be plotted.
+#' Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.
 #' @param alpha Probability of error of first kind (in plot shown as dotted horizontal line).
 #' @param xlim  A numeric value, specifying the left/lower limit and the right/upper limit of the x scale. Maximum value is xlim = 10.
 #' @param legend_title The text for Legend. By default it is set to "Test".
@@ -59,7 +60,8 @@ MCplot <- function(object,
                    nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
                    alpha = 0.05,
                    xlim = 5,
-                   legend_title = "Test",
+                   legend_title = ggplot2::element_blank(), #"Test",
+                   legend.direction = "vertical",
                    tag_title = ggplot2::element_blank(),
                    name_title = ggplot2::element_blank(),
                    tcolor=FALSE){
@@ -72,6 +74,7 @@ MCplot <- function(object,
                        alpha = alpha,
                        xlim = xlim,
                        legend_title = legend_title,
+                       legend.direction = legend.direction,
                        tag_title = tag_title,
                        name_title = name_title,
                        tcolor = tcolor)

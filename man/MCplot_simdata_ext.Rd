@@ -23,7 +23,8 @@ MCplot_simdata_ext(
 
 \item{k}{Number of items \eqn{k} of selected case. k = 6, 8, 10, 12, 14, 16, 18, 20, 25, 30}
 
-\item{nstats}{Name of test statistics to be plotted. Note a maximum of 1 test allowed. By default "sqs" will be plotted.}
+\item{nstats}{Name of test statistics to be plotted. Note a maximum of 1 test allowed. By default "sqs" will be plotted.
+Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.}
 
 \item{alpha}{Probability of error of first kind (in plot shown as dotted horizontal line).}
 

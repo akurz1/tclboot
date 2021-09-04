@@ -6,20 +6,23 @@
 \usage{
 MCplot_crit(
   object,
-  nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
+  nstats = c("W", "LR", "RS", "G", "U1", "U2", "St"),
   alpha = 0.05,
   xlim = 5,
-  legend_title = "Test",
+  legend_title = ggplot2::element_blank(),
   legend.direction = "vertical",
   tag_title = ggplot2::element_blank(),
   name_title = ggplot2::element_blank(),
-  tcolor = FALSE
+  tcolor = FALSE,
+  ctr_alpha = 1,
+  ctr_mod = c("low", "high", "both")
 )
 }
 \arguments{
 \item{object}{An object of class "\code{MCplot}"}
 
-\item{nstats}{Name of test statistic to be plotted. Note only one test allowed. By default "sqs" will be plotted.}
+\item{nstats}{Name of test statistics chosen out of possible tests c("W", "LR", "RS", "G", "U1", "U2", "St") to be modified. Note only one test allowed. By default "U1" will be plotted.
+Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.}
 
 \item{alpha}{Probability of error of first kind (in plot shown as dotted horizontal line).}
 
@@ -34,6 +37,11 @@ MCplot_crit(
 \item{name_title}{The text for title of plot. By default it is element_blank().}
 
 \item{tcolor}{Logic value. If TRUE then ggplot plot will be in color otherwise black and white.}
+
+\item{ctr_alpha}{A numeric value. The crit. region \eqn{C} of selected test statistic will be \eqn{100(alpha*ctr_alpha)} percent largest values of this test statistics. Default value is 1.}
+
+\item{ctr_mod}{Character. Which type of modification of critical region should be used. Adding low most extreme values of the respective of \eqn{T} statistics ("low"),
+adding high most extreme values of the respective of \eqn{T} statistics ("high"), or adding both ("both"). The latter is also Default value.}
 }
 \value{
 An object of class "\code{MCplot}" containing:

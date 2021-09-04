@@ -9,7 +9,8 @@ MCplot(
   nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
   alpha = 0.05,
   xlim = 5,
-  legend_title = "Test",
+  legend_title = ggplot2::element_blank(),
+  legend.direction = "vertical",
   tag_title = ggplot2::element_blank(),
   name_title = ggplot2::element_blank(),
   tcolor = FALSE
@@ -18,7 +19,8 @@ MCplot(
 \arguments{
 \item{object}{An object of class "\code{MCplot}"}
 
-\item{nstats}{Name(s) of test statistics to be plotted. Note a maximum of 4 tests allowed. By default c("W", "LR", "RS", "G") will be plotted.}
+\item{nstats}{Name(s) of test statistics to be plotted. Note a maximum of 4 tests allowed. By default c("W", "LR", "RS", "G") will be plotted.
+Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.}
 
 \item{alpha}{Probability of error of first kind (in plot shown as dotted horizontal line).}
 

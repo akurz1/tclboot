@@ -22,6 +22,7 @@
 #' @param N Sample size \eqn{n} of selected case.  N =  10, 15, 20, 25, 30, 50
 #' @param k Number of items \eqn{k} of selected case. k = 6, 8, 10, 12, 14, 16, 18, 20, 25, 30
 #' @param nstats Name(s) of test statistics to be plotted. Note a maximum of 4 tests allowed. By default c("W", "LR", "RS", "G") will be plotted.
+#' Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.
 #' @param alpha Probability of error of first kind (in plot shown as dotted horizontal line).
 #' @param xlim  A numeric value, specifying the left/lower limit and the right/upper limit of the x scale. Maximum value is xlim = 10.
 #' @param legend_title The text for Legend. By default it is set to "Test".
