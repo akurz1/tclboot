@@ -2,6 +2,8 @@
 ## Conditional inference in small sample scenarios using a resampling approach
 
 
+Draxler, C., & Kurz, A. (submitted). Conditional inference in small sample scenarios. Stats(Special Issue "Re-sampling Methods for Statistical Inference of the 2020s"). Abstract Retrieved from https://www.mdpi.com/journal/stats/special_issues/resampling_statistics
+
 This R package provides an implementation of a non-parametric resampling technique in the context of multidimensional hypothesis testing of assumptions of the Rasch model based on conditional distributions. It is suggested in small sample size scenarios, in which asymptotic theory is not applicable, to approximate the exact sampling distribution of various well-known Chi^2 test statistics like Wald, likelihood ratio, score and gradient tests as well as others. A procedure to compute the power function of the tests is also presented. A number of examples of scenarios are discussed in which the power function does not converge to one with an increasing deviation from the hypothesis to be tested, i.e. the respective assumption of the model. Finally, an attempt to modify the critical region of the test is made aiming at improving the power.
 
 
@@ -82,8 +84,6 @@ ggpubr:: ggarrange(plotlist = plotlist,widths = c(1,1, 0.1, 1, 1),  ncol=5, nrow
 
 
 ## Figures 3 and 4 
-
-Draxler, C., & Kurz, A. (submitted). Conditional inference in small sample scenarios. Stats(Special Issue "Re-sampling Methods for Statistical Inference of the 2020s"). Abstract Retrieved from https://www.mdpi.com/journal/stats/special_issues/resampling_statistics
 
 #### Figure 3: 
 
