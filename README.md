@@ -1,4 +1,4 @@
-# tclboot an R package for
+# tclboot an R package
 ## Conditional inference in small sample scenarios using a resampling approach
 
 
