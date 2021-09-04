@@ -19,8 +19,7 @@ devtools::install_github("akurz1/tclboot")
 
 Draxler, C., & Kurz, A. (submitted). Conditional inference in small sample scenarios. Stats(Special Issue "Re-sampling Methods for Statistical Inference of the 2020s"). Abstract Retrieved from https://www.mdpi.com/journal/stats/special_issues/resampling_statistics
 
-####Figure 3: 
-Local power curve for the test U_1 and its modiﬁed version referring to an extreme item in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
+###Figure 3: Local power curve for the test U_1 and its modiﬁed version referring to an extreme item in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
 ```
 res3 <- MCplot_simdata_crit(N=30, k=10, nstats = "sqs", alpha = 0.05,
 +                                xlim = 5, legend.position = "top", legend.direction = "horizontal",
@@ -30,8 +29,7 @@ res3 <- MCplot_simdata_crit(N=30, k=10, nstats = "sqs", alpha = 0.05,
 Fig3 <- res3$power_item$I2  # ggplot object
 ```
 
-####Figure 4: 
-Local power curve for the test U_1 and its modiﬁed version referring to all (free) items in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
+###Figure 4: Local power curve for the test U_1 and its modiﬁed version referring to all (free) items in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
 ```
 res4 <- MCplot_simdata_crit(N=30, k=10, nstats = "sqs", alpha = 0.05,
                                xlim = 5, legend.position = c(.5, .85), legend.direction = "horizontal",
