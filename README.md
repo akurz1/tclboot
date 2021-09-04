@@ -15,6 +15,72 @@ install.packages("devtools")
 devtools::install_github("akurz1/tclboot")
 ```
 
+## Figures 1 and 2
+
+#### Figure 1:
+Figure 1. Local power curve for tests U_1 and U_2 and sample sizes n = 10, 20, 30, 50. Power curve displayed as a function of δ_2 (item 2, an extreme item) and δ_4 (item 4, a moderate item). The nominal level α is set to 0.05 (dotted horizontal line).
+
+```
+res_U1 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "U1", xlim = 4,
++                            legend.position = "top",
++                            legend.direction = "horizontal", tcolor = TRUE) #tcolor = TRUE)
+
+res_U2 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "U2", xlim = 4,
++                            legend.position = "top",
++                            legend.direction = "horizontal", tcolor = TRUE) #tcolor = TRUE)
+
+plotlist <- list(
++   res_U1$plotlist$I2,
++   res_U1$plotlist$I4,
++   res_U2$plotlist$I2,
++   res_U2$plotlist$I4)
+
+ggpubr:: ggarrange(plotlist = plotlist, ncol=2, nrow = 2, common.legend = TRUE, legend = "top")
+```
+
+#### Figure 2:
+Local power curve for tests W, LR, RS and G and sample sizes n = 10, 20, 30, 50. Power curve displayed as a function of δ_2 (item 2, an extreme item) and δ_4 (item 4, a moderate item). The nominal level α is set to 0.05 (dotted horizontal line).
+
+```
+res1 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "W", xlim = 4,
+                           legend.position = "top",
+                           legend.direction = "horizontal", tcolor = TRUE)
+
+res2 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "LR", xlim = 4,
+                           legend.position = "top",
+                           legend.direction = "horizontal", tcolor = TRUE)
+                           
+res3 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "RS", xlim = 4,
+                           legend.position = "top",
+                           legend.direction = "horizontal", tcolor = TRUE)
+
+res4 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "G", xlim = 4,
+                           legend.position = "top",
+                           legend.direction = "horizontal", tcolor = TRUE)
+
+l1 <- expression(italic("W")) # Wald
+l2 <- expression(italic("LR"))  # abs
+l3 <- expression(italic("RS"))  # RS
+l4 <- expression(italic("G"))  # G
+
+plotlist <- list(
+  res1$plotlist$I2 + ggplot2::labs(tag = l1),
+  res1$plotlist$I4,
+  NULL,
+  res2$plotlist$I2 + ggplot2::labs(tag = l2),
+  res2$plotlist$I4,
+  res3$plotlist$I2 + ggplot2::labs(tag = l3),
+  res3$plotlist$I4,
+  NULL,
+  res4$plotlist$I2 + ggplot2::labs(tag = l4),
+  res4$plotlist$I4)
+
+ggpubr:: ggarrange(plotlist = plotlist,widths = c(1,1, 0.1, 1, 1),  ncol=5, nrow = 2, common.legend = TRUE, legend = "top")
+
+```
+
+
+
 ## Figures 3 and 4 
 
 Draxler, C., & Kurz, A. (submitted). Conditional inference in small sample scenarios. Stats(Special Issue "Re-sampling Methods for Statistical Inference of the 2020s"). Abstract Retrieved from https://www.mdpi.com/journal/stats/special_issues/resampling_statistics
@@ -23,7 +89,7 @@ Draxler, C., & Kurz, A. (submitted). Conditional inference in small sample scena
 
 Local power curve for the test U_1 and its modiﬁed version referring to an extreme item in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
 ```
-res3 <- MCplot_simdata_crit(N=30, k=10, nstats = "sqs", alpha = 0.05,
+res3 <- MCplot_simdata_crit(N=30, k=10, nstats = "U1", alpha = 0.05,
 +                                xlim = 5, legend.position = "top", legend.direction = "horizontal",
 +                                ctr_alpha = 1,
 +                                ctr_mod = "high")
@@ -35,7 +101,7 @@ Fig3 <- res3$power_item$I2  # ggplot object
 
 Local power curve for the test U_1 and its modiﬁed version referring to all (free) items in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
 ```
-res4 <- MCplot_simdata_crit(N=30, k=10, nstats = "sqs", alpha = 0.05,
+res4 <- MCplot_simdata_crit(N=30, k=10, nstats = "U1", alpha = 0.05,
                                xlim = 5, legend.position = c(.5, .85), legend.direction = "horizontal",
                                ctr_alpha = .2,
                                ctr_mod = "both")

@@ -47,13 +47,16 @@ adding high most extreme values of the respective of \eqn{T} statistics ("high")
 An object of class "\code{MCplot}" containing:
 \item{power_item}{A list of length k containing ggplot objects of power plots of each item and selected test statistics and
  modification of critical region (cond).}
-\item{hist_item}{Histograms of critical values of sufficient statistics \eqn{t}, without ("test name") and with (cond) modification of critical region.}
+\item{hist_item}{Histograms of critical values of sufficient statistics \eqn{t}, without ("test name") and with (mod) modification of critical region.}
  \item{plotlist}{A list of length k containing combined ggplot objects of (1) power plots of each item and selected test statistics and
  modification of critical region, and (2) Histograms of critical values of sufficient statistics \eqn{t}, without ("test name") and with (mod) modification
  of critical region.}
- \item{indexlist}{A list of length k containing (1) a vector of sufficient statistics of item, (2) indices of critical region of selected test statistics,
- (3) Indices of modification showing extreme values of the respective T statistics.}
- \item{call}{The matched call.}
+ \item{resultlist}{A list of length k containing several sublists: values of sufficient statistics \eqn{t} "t_item",
+ indices of \eqn{100(alpha*ctr_alpha)} percent largest values ("icrit"), and \eqn{100(alpha)} percent largest values of test statistic ("icrit0"),
+ incices of modification ("imod", "imod_low", "imod_high"), difference of indices ("idiff"), union of indices in crit. reg. after modification ("icrit_mod"),
+ power values at \eqn{delta}=0 ("lpwr_d0"), and a table of rel. frequency of values of sufficient statistics \eqn{t} in critical region ("t_table") }
+ \item{hist_crit_reg}{A list of length k containing histograms of critical values of sufficient statistics \eqn{t}, without modification ("test name") and with (mod) modification of critical region.}
+  \item{call}{The matched call.}
 }
 \description{
 This function plots the power function of one selected test statistics.

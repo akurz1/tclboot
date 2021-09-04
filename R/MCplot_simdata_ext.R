@@ -21,7 +21,7 @@
 #'
 #' @param npers A vector of sample sizes \eqn{n} for cases of interest.  N =  10, 15, 20, 25, 30, 50. Default value are N = 10, 20, 30, 50.
 #' @param k Number of items \eqn{k} of selected case. k = 6, 8, 10, 12, 14, 16, 18, 20, 25, 30
-#' @param nstats Name of test statistics to be plotted. Note a maximum of 1 test allowed. By default "sqs" will be plotted.
+#' @param nstats Name of test statistics to be plotted. Note a maximum of 1 test allowed. By default "U1" will be plotted.
 #' Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.
 #' @param alpha Probability of error of first kind (in plot shown as dotted horizontal line).
 #' @param xlim  A numeric value, specifying the left/lower limit and the right/upper limit of the x scale. Maximum value is xlim = 10.
@@ -54,7 +54,7 @@
 
 MCplot_simdata_ext <- function(npers = c(10,15,20,25,30,50),
                                k,
-                               nstats = c("W", "LR", "RS", "G", "abs", "sqs", "St"),
+                               nstats = c("W", "LR", "RS", "G", "U1", "U2", "St"),
                                alpha = 0.05,
                                xlim = 5,
                                legend_title = "n",
@@ -65,7 +65,10 @@ MCplot_simdata_ext <- function(npers = c(10,15,20,25,30,50),
                                tcolor=FALSE){
   call<-match.call()
   if (length(npers) > 4) npers <- c(10,20,30,50)
-  if (length(nstats) > 1)  nstats <- c("sqs")
+  if (length(nstats) > 1)  nstats <- c("U1")
+
+  if (nstats == "U1") nstats <- "sqs"
+  if (nstats == "U2") nstats <- "abs"
 
   i_pers <- seq(npers)
 
@@ -75,7 +78,7 @@ MCplot_simdata_ext <- function(npers = c(10,15,20,25,30,50),
   names(empty_list) <- c(as.character(npers[i_pers])  )
 
 
-obj_list <- empty_list
+  obj_list <- empty_list
 
   for (ip in i_pers) { ######## N
 
