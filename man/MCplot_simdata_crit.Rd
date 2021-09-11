@@ -7,6 +7,7 @@
 MCplot_simdata_crit(
   N,
   k,
+  d_item,
   nstats = c("W", "LR", "RS", "G", "U1", "U2", "St"),
   alpha = 0.05,
   xlim = 5,
@@ -24,6 +25,8 @@ MCplot_simdata_crit(
 \item{N}{Sample size \eqn{n} of selected case.  N =  10, 15, 20, 25, 30, 50}
 
 \item{k}{Number of items \eqn{k} of selected case. k = 6, 8, 10, 12, 14, 16, 18, 20, 25, 30}
+
+\item{d_item}{A vector of length k containing delta values of each item. If missing, by default all deltas are set to 0.}
 
 \item{nstats}{Name of test statistics chosen out of possible tests c("W", "LR", "RS", "G", "U1", "U2", "St") to be modified. Note only one test allowed. By default "U1" will be plotted.
 Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.}
@@ -60,7 +63,7 @@ An object of class "\code{MCplot_case_crit}" containing:
  \item{resultlist}{A list of length k containing several sublists: values of sufficient statistics \eqn{t} "t_item",
  indices of \eqn{100(alpha*ctr_alpha)} percent largest values ("icrit"), and \eqn{100(alpha)} percent largest values of test statistic ("icrit0"),
  incices of modification ("imod", "imod_low", "imod_high"), difference of indices ("idiff"), union of indices in crit. reg. after modification ("icrit_mod"),
- power values at \eqn{delta}=0 ("lpwr_d0"), and a table of rel. frequency of values of sufficient statistics \eqn{t} in critical region ("t_table") }
+ local power values with all \eqn{delta}=0 ("lpwr_d0"), local power with vector d_item and d=0 for item i ("lpwr_d_item"), and a table of rel. frequency of values of sufficient statistics \eqn{t} in critical region ("t_table") }
  \item{hist_crit_reg}{A list of length k containing histograms of critical values of sufficient statistics \eqn{t}, without modification ("test name") and with (mod) modification of critical region.}
   \item{call}{The matched call.}
 }

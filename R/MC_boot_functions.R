@@ -976,6 +976,7 @@ plotlist_ext <- function(object_list,
 #  modification  of critical region C   #
 #########################################
 plotlist_crit <- function(object,
+                          d_item, # vector d_item
                           nstats,
                           alpha,
                           xlim,
@@ -1014,10 +1015,10 @@ plotlist_crit <- function(object,
   #-----------------------------------------------------------------
   # power calculation
   #-----------------------------------------------------------------
-  power_i <- function(d, item, icrit) {
-    # d_item[item] <- d  # set ith d_item to d
-    # return(sum(exp(colSums( t[, icrit] * d_item))) / sum(exp( colSums( t * d_item ))))
-    pwr <- sum(exp( t[item, icrit] * d )) / sum(exp(t[item,] * d ))
+  power_i <- function(d, item, icrit, d_item) {
+    d_item[item] <- d  # set ith element of d_item to d
+    pwr <- sum(exp(colSums( t[, icrit] * d_item))) / sum(exp( colSums( t * d_item )))
+    # pwr <- sum(exp( t[item, icrit] * d )) / sum(exp(t[item,] * d ))
     return(pwr)
   }
 
@@ -1030,7 +1031,8 @@ plotlist_crit <- function(object,
     tab <- object$result_list$plot[[item]] [ c("x",nstats)]
     dvec <- tab$x
 
-    if (alpha != .05) tab[[2]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit0)  # saved result data with alpha = 0.05!
+    # if (alpha != .05) tab[[2]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit0)  # saved result data with alpha = 0.05!
+    if((alpha != .05) || (sum( abs(d_item)) > 0)) tab[[2]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit0, d_item=d_item)
 
     ### conditionioning critical region ##################################
     imod_low <- which(t[item,] < stats::quantile(t[item,], alpha))
@@ -1045,7 +1047,8 @@ plotlist_crit <- function(object,
     } # end if
 
     icrit_mod <- union(icrit, imod)
-    tab[[nstats_c]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit_mod)
+    # tab[[nstats_c]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit_mod)
+    tab[[nstats_c]] <- sapply(dvec, FUN = power_i, item=item, icrit = icrit_mod, d_item = d_item)
 
     #idiff <- base::setdiff(imod, icrit)
     idiff <- base::setdiff(imod, icrit0)  # difference with and without modification
@@ -1117,7 +1120,7 @@ plotlist_crit <- function(object,
     tlist <- list()
 
     tlist[[1]] <-  table(t_i[icrit0])  # crit region t without modification (alpha)
-    tlist[[2]] <-  table(t_i[icrit])   # crit region t with modification (alpha_mod)
+    tlist[[2]] <-  table(t_i[icrit])   # crit region t with modification (alpha * ctr_alpha)
     tlist[[3]] <-  table(t_i[imod])    # modification crit. reg. (alpha)
     # names(tlist) <- c(nstats, paste0(nstats,"_mod"), nstats_c)
     names(tlist) <- c(nstats, paste0(nstats,"_mod"), "alpha_mod")
@@ -1130,8 +1133,12 @@ plotlist_crit <- function(object,
     names(lpwr_d0) <- c(nstats, paste0(nstats,"_mod"), paste0("alpha_",nstats_c),  nstats_c, "diff")
     resultlist[[item]]$lpwr_d0 <- lpwr_d0
 
-    plotlist_t2[[item]] <- t_hist_item(df = df)
+    # local power with vector d_item at d_i = 0
+    lpwr_d_item <- c(tab[[2]][which(tab[[1]] == 0)], tab[[3]][which(tab[[1]] == 0)])
+    names(lpwr_d_item) <- c(nstats, nstats_c)
+    resultlist[[item]]$lpwr_d_item <- lpwr_d_item
 
+    plotlist_t2[[item]] <- t_hist_item(df = df)
 
     resultlist[[item]]$t_table <- df
 

@@ -24,6 +24,7 @@
 #' @param alpha Probability of error of first kind (in plot shown as dotted horizontal line).
 #' @param xlim  A numeric value, specifying the left/lower limit and the right/upper limit of the x scale. Maximum value is xlim = 10.
 #' @param legend_title The text for Legend. By default it is set to "Test".
+#' @param legend.direction layout of items in legends ("horizontal" or "vertical")
 #' @param tag_title The text for tag label, which will be displayed at the top-left of the plot, by default of Item 1 only. By default it is element_blank().
 #' @param name_title The text for title of plot. By default it is element_blank().
 #' @param tcolor Logic value. If TRUE then ggplot plot will be in color otherwise black and white.

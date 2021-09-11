@@ -28,6 +28,8 @@ Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "a
 
 \item{legend_title}{The text for Legend. By default it is set to "Test".}
 
+\item{legend.direction}{layout of items in legends ("horizontal" or "vertical")}
+
 \item{tag_title}{The text for tag label, which will be displayed at the top-left of the plot, by default of Item 1 only. By default it is element_blank().}
 
 \item{name_title}{The text for title of plot. By default it is element_blank().}

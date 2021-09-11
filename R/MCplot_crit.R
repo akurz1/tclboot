@@ -21,6 +21,7 @@
 #'An attempt to modify the critical region of the test is made aiming at improving the power.
 #'
 #' @param object An object of class "\code{MCplot}"
+#' @param d_item A vector of length k containing delta values of each item. If missing, by default all deltas are set to 0.
 #' @param nstats Name of test statistics chosen out of possible tests c("W", "LR", "RS", "G", "U1", "U2", "St") to be modified. Note only one test allowed. By default "U1" will be plotted.
 #' Note "U1" = "sqs" or sum of squared elements of the score function and "U2" = "abs" or sum of absolute values.
 #' @param alpha Probability of error of first kind (in plot shown as dotted horizontal line).
@@ -44,7 +45,7 @@
 #'  \item{resultlist}{A list of length k containing several sublists: values of sufficient statistics \eqn{t} "t_item",
 #'  indices of \eqn{100(alpha*ctr_alpha)} percent largest values ("icrit"), and \eqn{100(alpha)} percent largest values of test statistic ("icrit0"),
 #'  incices of modification ("imod", "imod_low", "imod_high"), difference of indices ("idiff"), union of indices in crit. reg. after modification ("icrit_mod"),
-#'  power values at \eqn{delta}=0 ("lpwr_d0"), and a table of rel. frequency of values of sufficient statistics \eqn{t} in critical region ("t_table") }
+#'  local power values at all \eqn{delta}=0 ("lpwr_d0"), local power with vector d_item and d=0 for item i ("lpwr_d_item"), and a table of rel. frequency of values of sufficient statistics \eqn{t} in critical region ("t_table") }
 #'  \item{hist_crit_reg}{A list of length k containing histograms of critical values of sufficient statistics \eqn{t}, without modification ("test name") and with (mod) modification of critical region.}
 #'   \item{call}{The matched call.}
 #'
@@ -75,6 +76,7 @@
 #' }
 
 MCplot_crit <- function( object,
+                         d_item, # delta vector d_item
                          nstats = c("W", "LR", "RS", "G", "U1", "U2", "St"),
                          alpha = 0.05,
                          xlim = 5,
@@ -86,15 +88,19 @@ MCplot_crit <- function( object,
                          ctr_alpha = 1,
                          ctr_mod = c("low", "high", "both")){
   call<-match.call()
-  # if (length(nstats) > 1)  nstats <- c("sqs")
+
+  k <- dim(object$MCobject$inputmat)[2]
+  if (missing(d_item)) d_item <- rep(0, k) # vector d_item  equal zero
+  if (d_item[length(d_item)] != 0) d_item[length(d_item)] <- 0 # kth vector element set equal 0
+  names(d_item) <- paste0("I", seq(1:length(d_item)))
 
   if (length(nstats) > 1) {
     warning("Test for modification set by default to U1!")
     nstats <- c("U1")
   }
 
-  if (nstats == "U1") nstats <- "sqs"
-  if (nstats == "U2") nstats <- "abs"
+  if (nstats == "U1") nstats <- "sqs" # for internal use
+  if (nstats == "U2") nstats <- "abs" # for internal use
 
   if (length(ctr_mod) > 1)  {
     warning("Default value for modification set (both)!")
@@ -103,6 +109,7 @@ MCplot_crit <- function( object,
 
 
   results  <- plotlist_crit( object=object,
+                             d_item = d_item, # vector d_item
                              nstats=nstats,
                              alpha=alpha,
                              xlim=xlim,
@@ -113,6 +120,7 @@ MCplot_crit <- function( object,
                              tcolor=tcolor,
                              ctr_alpha = ctr_alpha,
                              ctr_mod = ctr_mod)
+  results$d_item <- d_item
   results$call <- call
 
   class(results) <- "MCplot_crit"
