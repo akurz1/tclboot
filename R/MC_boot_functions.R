@@ -935,8 +935,10 @@ plotlist_ext <- function(object_list,
 
     for (ip in i_pers) { ######## N
 
-      if (ip==1) tab[[1]] <- unlist(object_list[[ip]]$result_list$plot[[item]][c("x")])
-      tab[[ip+1]] <- unlist(object_list[[ip]]$result_list$plot[[item]][c(nstats)])
+      # if (ip==1) tab[[1]] <- unlist(object_list[[ip]]$result_list$plot[[item]][c("x")])
+      # tab[[ip+1]] <- unlist(object_list[[ip]]$result_list$plot[[item]][c(nstats)])
+      if (ip==1) tab  <- (object_list[[ip]]$result_list$plot[[item]][c("x")])
+      tab[[npers[ip]]] <-  unlist(object_list[[ip]]$result_list$plot[[item]][c(nstats)])
     } # end ip
 
 
