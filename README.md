@@ -99,7 +99,7 @@ Fig3 <- res3$power_item$I2  # ggplot object
 
 #### Figure 4: 
 
-Local power curve for the test U_1 and its modiﬁed version referring to all (free) items in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
+Local power curve for the test U_1 and its modiﬁed version referring to all (free) items in a scenario with sample size n = 30 and number of items k = 10. The dotted horizontal line represents the desired level α of 0.05.
 ```
 res4 <- MCplot_simdata_crit(N=30, k=10, nstats = "U1", alpha = 0.05,
                                xlim = 5, legend.position = c(.5, .85), legend.direction = "horizontal",
