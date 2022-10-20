@@ -51,7 +51,7 @@ res1 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "W", xlim = 4,
 res2 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "LR", xlim = 4,
                            legend.position = "top",
                            legend.direction = "horizontal", tcolor = TRUE)
-                           
+
 res3 <- MCplot_simdata_ext(npers = c(10,20,30,50), k=6, nstats = "RS", xlim = 4,
                            legend.position = "top",
                            legend.direction = "horizontal", tcolor = TRUE)
@@ -83,9 +83,9 @@ ggpubr:: ggarrange(plotlist = plotlist,widths = c(1,1, 0.1, 1, 1),  ncol=5, nrow
 
 
 
-## Figures 3 and 4 
+## Figures 3 and 4
 
-#### Figure 3: 
+#### Figure 3:
 
 Local power curve for the test U_1 and its modiﬁed version referring to an extreme item in a scenario with sample size n = 30 and number of items k = 10. The nominal level of α is set to .05 (dotted horizontal line).
 ```
@@ -97,7 +97,7 @@ res3 <- MCplot_simdata_crit(N=30, k=10, nstats = "U1", alpha = 0.05,
 Fig3 <- res3$power_item$I2  # ggplot object
 ```
 
-#### Figure 4: 
+#### Figure 4:
 
 Local power curve for the test U_1 and its modiﬁed version referring to all (free) items in a scenario with sample size n = 30 and number of items k = 10. The dotted horizontal line represents the desired level α of 0.05.
 ```
@@ -108,4 +108,3 @@ res4 <- MCplot_simdata_crit(N=30, k=10, nstats = "U1", alpha = 0.05,
 
 ggpubr::ggarrange(plotlist = res3$power_item[-10], ncol=3, nrow = 3, common.legend = TRUE, legend = "top")
 ```
-
